@@ -1,0 +1,244 @@
+/* Estilo global del cuerpo */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e9ecef;
+    color: #495057;
+    position: relative; /* Necesario para el footer fijo */
+    min-height: 100vh; /* Asegura que el footer esté al final incluso si el contenido es corto */
+}
+
+/* Estilo para las secciones de inicio de sesión y contactos */
+#login-section, #contacts-section {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Estilo para el logo en la sección de inicio de sesión */
+#login-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar horizontalmente */
+    justify-content: center; /* Centrar verticalmente */
+}
+
+#login-logo {
+    width: 150px;
+    margin-bottom: 20px; /* Espacio debajo del logo */
+    opacity: 1; /* Asegúrate de que no esté oculto */
+    transition: opacity 1s ease-in-out; /* Transición para la animación */
+}
+
+/* Estilo para el logo y el texto en la sección de contactos */
+#contacts-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar horizontalmente */
+    justify-content: center; /* Centrar verticalmente */
+}
+
+#contacts-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Espacio entre logo y texto */
+}
+
+#contacts-logo {
+    width: 100px; /* Tamaño del logo en la sección de contactos */
+    display: block; /* Asegúrate de que se comporta como un bloque */
+}
+
+#contacts-title {
+    font-size: 24px; /* Tamaño del texto */
+    font-weight: bold; /* Negrita */
+    color: #343a40;
+    animation: fadeIn 2s ease-in-out; /* Animación para el texto */
+    text-align: center; /* Centrar el texto */
+}
+
+/* Animación de desvanecimiento */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilo para los campos de entrada */
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* Estilo para los botones */
+button {
+    padding: 12px 24px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo específico para el botón de búsqueda */
+#search-button {
+    background-color: #28a745;
+}
+
+#search-button:hover {
+    background-color: #218838;
+}
+
+/* Estilo para la lista de contactos */
+#contacts-list {
+    margin-top: 20px;
+}
+
+/* Estilo para cada contacto */
+.contact {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background-color: #f8f9fa;
+}
+
+/* Estilo para la imagen del contacto */
+.contact img {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    margin-right: 20px;
+    border: 1px solid #ced4da;
+    cursor: pointer;
+}
+
+/* Contenedor de información del contacto */
+.contact-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Estilo para la información del contacto */
+.contact-info div {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #ffffff;
+}
+
+/* Estilo para el nombre y el correo del contacto */
+.contact-info strong {
+    font-size: 18px;
+    color: #212529;
+}
+
+.contact-info span {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+/* Estilo para la ventana modal */
+.modal {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Fijo en la pantalla */
+    z-index: 1; /* Por encima de otros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Permitir desplazamiento si es necesario */
+    background-color: rgba(0, 0, 0, 0.8); /* Fondo semitransparente */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/* Contenido de la ventana modal */
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #ffffff;
+    color: #212529;
+}
+
+/* Estilo del texto en la ventana modal */
+.modal-caption {
+    margin: 10px;
+    font-size: 16px;
+    color: #212529;
+}
+
+/* Botón para cerrar la ventana modal */
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilo para el pie de página */
+#footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    background-color: #343a40;
+    color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+}
+
+#footer a {
+    color: #00bcd4;
+    text-decoration: none;
+}
+
+#footer a:hover {
+    text-decoration: underline;
+}

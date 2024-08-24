@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Juan Pérez",
+        "email": "juan.perez@empresa.com",
+        "photo": "images/juan_perez.jpg"
+    },
+    {
+        "name": "Ana Gómez",
+        "email": "ana.gomez@empresa.com",
+        "photo": "images/ana_gomez.jpg"
+    },
+    {
+        "name": "Luis Fernández",
+        "email": "luis.fernandez@empresa.com",
+        "photo": "images/luis_fernandez.jpg"
+    }
+]

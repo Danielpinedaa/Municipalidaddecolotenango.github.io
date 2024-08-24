@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directorio de Contactos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Sección de inicio de sesión -->
+    <div id="login-section">
+        <img src="images/logo.png" alt="Logo de la Empresa" id="login-logo">
+        <h2>Iniciar Sesión</h2>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="Usuario" required>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <button type="submit">Iniciar Sesión</button>
+            <p id="login-error" style="color: red;"></p>
+        </form>
+    </div>
+    
+    <!-- Sección de contactos -->
+    <div id="contacts-section" style="display: none;">
+        <div id="contacts-header">
+            <div class="header-content">
+                <img src="images/logo.png" alt="Logo de la Empresa" id="contacts-logo">
+                <div id="contacts-title">Municipalidad de Colotenango, Huehuetenango</div>
+            </div>
+        </div>
+        <input type="text" id="search-box" placeholder="Buscar contactos...">
+        <button id="search-button">Buscar</button>
+        <div id="contacts-list"></div>
+    </div>
+
+    <!-- Modal para la vista previa de imágenes -->
+    <div id="image-modal" class="modal">
+        <span class="modal-close">&times;</span>
+        <img id="modal-image" class="modal-content" alt="Imagen del contacto">
+        <div id="caption" class="modal-caption"></div>
+    </div>
+
+    <!-- Modal para la credencial -->
+    <div id="credential-modal" class="modal">
+        <span class="modal-close">&times;</span>
+        <img id="credential-image" class="modal-content" alt="Credencial del contacto">
+        <div id="credential-caption" class="modal-caption"></div>
+    </div>
+
+    <!-- Derechos reservados -->
+    <footer id="footer">
+        <p>&copy; 2024 Municipalidad de Colotenango. Todos los derechos reservados. <br> <a href="#" id="privacy-policy">Políticas de Privacidad y Restricciones</a></p>
+    </footer>
+
+    <!-- Modal para Políticas de Privacidad y Restricciones -->
+    <div id="privacy-modal" class="modal">
+        <span class="modal-close" id="privacy-close">&times;</span>
+        <div class="modal-content">
+            <p>Está restringido el uso de estos contactos a gente que no se le ha dado permiso. Caso contrario, la ley caerá en usted por uso incorrecto.</p>
+        </div>
+    </div>
+
+    <!-- Incluir el archivo JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
