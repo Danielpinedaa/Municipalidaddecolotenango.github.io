@@ -205,11 +205,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Crear el mensaje para enviar por WhatsApp
         const message = `Solicitud de Usuario:\nNombre: ${name}\nCUI/DPI: ${cui}\nNIT: ${nit}\nEmpresa/Institución: ${company}\nMotivo: ${reason}`;
-        const whatsappUrl = `https://wa.me/50250410543?text=${encodeURIComponent(message)}`;
+        const whatsappUrl = `https://wa.me/+50250410543?text=${encodeURIComponent(message)}`;
         
         // Abrir WhatsApp con el mensaje prellenado
         window.open(whatsappUrl, '_blank');
     });
+
+    // Función para abrir modal
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'flex';
+    }
+
+    // Función para cerrar modal
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'none';
+    }
+});
+
+
 
     // Función para abrir modal
     function openModal(modalId) {
