@@ -5,8 +5,17 @@ body {
     padding: 0;
     background-color: #e9ecef;
     color: #495057;
-    position: relative; /* Necesario para el footer fijo */
-    min-height: 100vh; /* Asegura que el footer esté al final incluso si el contenido es corto */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Contenedor principal para todo el contenido */
+#content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 /* Estilo para las secciones de inicio de sesión y contactos */
@@ -81,7 +90,7 @@ body {
 }
 
 /* Estilo para los campos de entrada */
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], textarea {
     width: 100%;
     padding: 12px;
     margin: 12px 0;
@@ -103,7 +112,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #008a00bd;
 }
 
 /* Estilo específico para el botón de búsqueda */
@@ -112,7 +121,17 @@ button:hover {
 }
 
 #search-button:hover {
-    background-color: #218838;
+    background-color: #008a00bd;
+}
+
+/* Estilo para el botón de solicitar usuario */
+#request-user-button {
+    background-color: #007bff;
+    margin-top: 10px;
+}
+
+#request-user-button:hover {
+    background-color: #008a00bd;
 }
 
 /* Estilo para la lista de contactos */
@@ -223,15 +242,15 @@ button:hover {
 
 /* Estilo para el pie de página */
 #footer {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px;
     background-color: #343a40;
     color: #ffffff;
     text-align: center;
+    padding: 10px;
     font-size: 14px;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
 
 #footer a {
