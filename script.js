@@ -1,5 +1,3 @@
-// script.js
-
 document.addEventListener('DOMContentLoaded', () => {
     const usernameInput = document.getElementById('username');
     const passwordInput = document.getElementById('password');
@@ -10,6 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchBox = document.getElementById('search-box');
     const searchButton = document.getElementById('search-button');
     const contactsList = document.getElementById('contacts-list');
+    const requestUserButton = document.getElementById('request-user-button');
+    const requestModal = document.getElementById('request-modal');
+    const requestForm = document.getElementById('request-form');
+    const requestClose = document.getElementById('request-close');
 
     // Datos de prueba para autenticación
     const validUsername = 'admin';
@@ -19,23 +21,48 @@ document.addEventListener('DOMContentLoaded', () => {
     const contacts = [
         {
             "name": "Juan Pérez",
-            "email": "juan.perez@empresa.com",
+            "address": "Calle Falsa 123, Ciudad",
+            "phone": "555-1234",
             "photo": "images/profile/juan_perez.jpg",
             "credential": "images/credentials/juan_perez_credential.png"
         },
         {
             "name": "Ana Gómez",
-            "email": "ana.gomez@empresa.com",
+            "address": "Avenida Siempre Viva 742, Ciudad",
+            "phone": "555-5678",
             "photo": "images/profile/ana_gomez.jpg",
             "credential": "images/credentials/ana_gomez_credential.png"
         },
         {
             "name": "Luis Fernández",
-            "email": "luis.fernandez@empresa.com",
+            "address": "Boulevard de los Sueños 456, Ciudad",
+            "phone": "555-9012",
+            "photo": "images/profile/luis_fernandez.jpg",
+            "credential": "images/credentials/luis_fernandez_credential.png"
+        },
+        {
+            "name": "Luis Ferdez",
+            "address": "CASERÍO LOS REGADILLOS",
+            "phone": "555-9012",
+            "photo": "images/profile/luis_fernandez.jpg",
+            "credential": "images/credentials/luis_fernandez_credential.png"
+        },
+        {
+            "name": "Luis Ferdez",
+            "address": "CASERÍO LOS REGADILLOS",
+            "phone": "555-9012",
+            "photo": "images/profile/luis_fernandez.jpg",
+            "credential": "images/credentials/luis_fernandez_credential.png"
+        },
+        {
+            "name": "Luis Ferdez",
+            "address": "CASERÍO LOS REGADILLOS",
+            "phone": "555-9012",
             "photo": "images/profile/luis_fernandez.jpg",
             "credential": "images/credentials/luis_fernandez_credential.png"
         }
     ];
+    
 
     // Manejo del formulario de inicio de sesión
     loginForm.addEventListener('submit', (e) => {
@@ -63,7 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="contact-info">
                     <div>
                         <strong>${contact.name}</strong><br>
-                        <span>${contact.email}</span>
+                        <span>${contact.address}</span><br>
+                        <span>${contact.phone}</span>
                     </div>
                 </div>
             `;
@@ -73,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             contactsList.appendChild(contactDiv);
         });
-
+    
         // Agregar evento a cada imagen para abrir en modal
         const images = document.querySelectorAll('.contact img');
         images.forEach(img => {
@@ -82,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 openImageModal(img.src, img.alt);
             });
         });
-    }
+    }    
 
     // Función para abrir el modal de la foto
     function openImageModal(src, alt) {
@@ -157,13 +185,42 @@ document.addEventListener('DOMContentLoaded', () => {
         openModal('privacy-modal');
     });
 
-    // Función para abrir el modal
+    // Mostrar modal para solicitar usuario
+    requestUserButton.addEventListener('click', () => {
+        openModal('request-modal');
+    });
+
+    // Manejar el envío del formulario de solicitud de usuario
+    requestForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('request-name').value;
+        const cui = document.getElementById('request-cui').value;
+        const nit = document.getElementById('request-nit').value;
+        const company = document.getElementById('request-company').value;
+        const reason = document.getElementById('request-reason').value;
+
+        // Cerrar el modal
+        closeModal('request-modal');
+
+        // Crear el mensaje para enviar por WhatsApp
+        const message = `Solicitud de Usuario:\nNombre: ${name}\nCUI/DPI: ${cui}\nNIT: ${nit}\nEmpresa/Institución: ${company}\nMotivo: ${reason}`;
+        const whatsappUrl = `https://wa.me/50239338488?text=${encodeURIComponent(message)}`;
+        
+        // Abrir WhatsApp con el mensaje prellenado
+        window.open(whatsappUrl, '_blank');
+    });
+
+    // Función para abrir modal
     function openModal(modalId) {
-        document.getElementById(modalId).style.display = 'flex';
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'flex';
     }
 
-    // Función para cerrar el modal
+    // Función para cerrar modal
     function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'none';
     }
 });
+
