@@ -224,18 +224,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
-
-    // Función para abrir modal
-    function openModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.style.display = 'flex';
-    }
-
-    // Función para cerrar modal
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
-        modal.style.display = 'none';
-    }
-});
-
