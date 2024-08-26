@@ -63,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     ];
     
-
     // Manejo del formulario de inicio de sesión
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -203,12 +202,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Cerrar el modal
         closeModal('request-modal');
 
-        // Crear el mensaje para enviar por WhatsApp
-        const message = `Solicitud de Usuario:\nNombre: ${name}\nCUI/DPI: ${cui}\nNIT: ${nit}\nEmpresa/Institución: ${company}\nMotivo: ${reason}`;
-        const whatsappUrl = `https://wa.me/+50250410543?text=${encodeURIComponent(message)}`;
-        
-        // Abrir WhatsApp con el mensaje prellenado
-        window.open(whatsappUrl, '_blank');
+        // Crear el mensaje para enviar por correo electrónico
+        const subject = encodeURIComponent('Solicitud de Usuario');
+        const body = encodeURIComponent(`Nombre: ${name}\nCUI/DPI: ${cui}\nNIT: ${nit}\nEmpresa/Institución: ${company}\nMotivo: ${reason}`);
+        const mailtoUrl = `mailto:dpdanielpineda59@gmail.com?subject=${subject}&body=${body}`;
+
+        // Abrir el cliente de correo con el mensaje prellenado
+        window.open(mailtoUrl, '_blank');
     });
 
     // Función para abrir modal
@@ -222,5 +222,50 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = document.getElementById(modalId);
         modal.style.display = 'none';
     }
-});
 
+ // Función para mostrar el anuncio emergente
+function showAnnouncement(message) {
+    const announcement = document.getElementById('announcement');
+    announcement.textContent = message;
+    announcement.style.display = 'block';
+}
+
+// Función para ocultar el anuncio emergente
+function hideAnnouncement() {
+    const announcement = document.getElementById('announcement');
+    announcement.style.display = 'none';
+}
+
+// Función para verificar la fecha y mostrar el anuncio adecuado
+function checkAnnouncement() {
+    const today = new Date();
+    const month = today.getMonth(); // 0 = Enero, 1 = Febrero, ..., 7 = Agosto, 8 = Septiembre
+    const day = today.getDate();
+
+    let message = '';
+
+    // Mensaje para el mes de agosto
+    if (month === 7) { // Agosto
+        message = 'La próxima reunión de COMUDE es el jueves 29-08-2024.';
+    }
+    // Mensaje para el mes de septiembre
+    else if (month === 8) { // Septiembre
+        message = 'La próxima reunión de COMUDE es el jueves 26-09-2024.';
+    } else {
+        return; // No mostrar anuncio en otros meses
+    }
+
+    // Mostrar el anuncio en intervalos
+    function displayAnnouncement() {
+        showAnnouncement(message);
+        setTimeout(hideAnnouncement, 5000); // Ocultar después de 10 segundos
+        setTimeout(displayAnnouncement, 15000); // Mostrar después de 1 minuto y 10 segundos
+    }
+
+    displayAnnouncement();
+}
+
+// Ejecutar la función cuando se cargue la página
+window.addEventListener('load', checkAnnouncement);
+
+});

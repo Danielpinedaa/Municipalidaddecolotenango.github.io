@@ -261,3 +261,16 @@ button:hover {
 #footer a:hover {
     text-decoration: underline;
 }
+
+/* Estilo para el anuncio emergente */
+.announcement {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: #f0ad4e;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1000;
+    display: none; /* Por defecto oculto */
+}
