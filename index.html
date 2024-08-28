@@ -32,15 +32,7 @@
             </div>
             <input type="text" id="search-box" placeholder="Buscar contactos...">
             <button id="search-button">Buscar</button>
-            <div id="contacts-list">
-                <!-- Otros elementos del listado de contactos -->
-
-                <!-- Contenedor para los botones de llamar y compartir -->
-                <div class="button-container">
-                    <button class="call-button">Llamar</button>
-                    <button class="share-button">Compartir</button>
-                </div>
-            </div>
+            <div id="contacts-list"></div>
         </div>
 
         <!-- Modal para la vista previa de imágenes -->
@@ -85,6 +77,29 @@
                 </form>
             </div>
         </div>
+
+        <!-- Sección del Dashboard de Administración -->
+        <div id="admin-dashboard" style="display: none;">
+            <h2>Panel de Administración</h2>
+            <form id="admin-form">
+                <label for="admin-name">Nombre:</label>
+                <input type="text" id="admin-name" required><br>
+
+                <label for="admin-address">Dirección:</label>
+                <input type="text" id="admin-address" required><br>
+
+                <label for="admin-phone">Teléfono:</label>
+                <input type="text" id="admin-phone" required><br>
+
+                <label for="admin-photo">Foto del Contacto:</label>
+                <input type="file" id="admin-photo" accept="image/*" required><br>
+
+                <label for="admin-credential">Foto de la Credencial:</label>
+                <input type="file" id="admin-credential" accept="image/*" required><br>
+
+                <button type="submit">Agregar Contacto</button>
+            </form>
+        </div>
     </div>
 
     <!-- Derechos reservados -->
@@ -98,3 +113,4 @@
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
 </body>
 </html>
+

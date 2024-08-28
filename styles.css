@@ -112,7 +112,7 @@ button {
 }
 
 button:hover {
-    background-color: #008a00bd;
+    background-color: #0056b3;
 }
 
 /* Estilo específico para el botón de búsqueda */
@@ -121,7 +121,7 @@ button:hover {
 }
 
 #search-button:hover {
-    background-color: #008a00bd;
+    background-color: #218838;
 }
 
 /* Estilo para el botón de solicitar usuario */
@@ -131,7 +131,7 @@ button:hover {
 }
 
 #request-user-button:hover {
-    background-color: #008a00bd;
+    background-color: #0056b3;
 }
 
 /* Estilo para la lista de contactos */
@@ -265,8 +265,8 @@ button:hover {
 /* Estilo para el anuncio emergente */
 .announcement {
     position: fixed;
-    bottom: 10px;
-    right: 10px;
+    top: 10px; /* Mover a la parte superior */
+    right: 10px; /* Mantener a la derecha */
     background: #f0ad4e;
     color: #fff;
     padding: 10px;
@@ -274,8 +274,8 @@ button:hover {
     z-index: 1000;
     display: none; /* Por defecto oculto */
 }
-/* Estilo para los botones de llamar y compartir */
 
+/* Estilo para los botones de llamar y compartir */
 .call-button, .share-button {
     padding: 5px 10px;
     font-size: 12px;
@@ -291,4 +291,39 @@ button:hover {
 
 .call-button:hover, .share-button:hover {
     background-color: #0056b3;
+}
+
+/* Estilo para el Dashboard de Administración */
+#admin-dashboard {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#admin-dashboard input[type="text"],
+#admin-dashboard input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    margin: 12px 0;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+#admin-dashboard button {
+    padding: 12px 24px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #28a745;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#admin-dashboard button:hover {
+    background-color: #218838;
 }
