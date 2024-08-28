@@ -13,11 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const requestForm = document.getElementById('request-form');
     const requestClose = document.getElementById('request-close');
 
-    // Datos de prueba para autenticación
     const validUsername = 'admin';
     const validPassword = 'admin123';
 
-    // Definir contactos directamente en el script
     const contacts = [
         {
             "name": "Juan Pérez",
@@ -39,31 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
             "phone": "555-9012",
             "photo": "images/profile/luis_fernandez.jpg",
             "credential": "images/credentials/luis_fernandez_credential.png"
-        },
-        {
-            "name": "Luis Ferdez",
-            "address": "CASERÍO LOS REGADILLOS",
-            "phone": "555-9012",
-            "photo": "images/profile/luis_fernandez.jpg",
-            "credential": "images/credentials/luis_fernandez_credential.png"
-        },
-        {
-            "name": "Luis Ferdez",
-            "address": "CASERÍO LOS REGADILLOS",
-            "phone": "555-9012",
-            "photo": "images/profile/luis_fernandez.jpg",
-            "credential": "images/credentials/luis_fernandez_credential.png"
-        },
-        {
-            "name": "Luis Ferdez",
-            "address": "CASERÍO LOS REGADILLOS",
-            "phone": "555-9012",
-            "photo": "images/profile/luis_fernandez.jpg",
-            "credential": "images/credentials/luis_fernandez_credential.png"
         }
     ];
-    
-    // Manejo del formulario de inicio de sesión
+
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const username = usernameInput.value;
@@ -72,13 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (username === validUsername && password === validPassword) {
             loginSection.style.display = 'none';
             contactsSection.style.display = 'block';
-            displayContacts(contacts); // Muestra todos los contactos al inicio
+            displayContacts(contacts);
         } else {
             loginError.textContent = 'Usuario o contraseña incorrectos.';
         }
     });
 
-    // Mostrar contactos en la página
     function displayContacts(contacts) {
         contactsList.innerHTML = '';
         contacts.forEach(contact => {
@@ -90,28 +65,53 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div>
                         <strong>${contact.name}</strong><br>
                         <span>${contact.address}</span><br>
-                        <span>${contact.phone}</span>
+                        <span>${contact.phone}</span><br>
                     </div>
+                    <button class="call-button">Llamar</button>
+                    <button class="share-button">Compartir</button>
                 </div>
             `;
             contactDiv.setAttribute('data-credential-src', contact.credential);
+
+            // Evitar propagación al hacer clic en botones
+            contactDiv.querySelector('.call-button').addEventListener('click', (event) => {
+                event.stopPropagation();
+                makeCall(contact.phone);
+            });
+
+            contactDiv.querySelector('.share-button').addEventListener('click', (event) => {
+                event.stopPropagation();
+                shareContact(contact.name, contact.address, contact.phone);
+            });
+
             contactDiv.addEventListener('click', () => {
                 openCredentialModal(contact.credential, contact.name);
             });
+
             contactsList.appendChild(contactDiv);
         });
-    
-        // Agregar evento a cada imagen para abrir en modal
+
         const images = document.querySelectorAll('.contact img');
         images.forEach(img => {
             img.addEventListener('click', (event) => {
-                event.stopPropagation(); // Evita que el clic en la imagen también active el modal de credenciales
+                event.stopPropagation();
                 openImageModal(img.src, img.alt);
             });
         });
-    }    
+    }
 
-    // Función para abrir el modal de la foto
+    function makeCall(phone) {
+        window.location.href = `tel:${phone}`;
+    }
+
+    function shareContact(name, address, phone) {
+        const message = `Contacto: ${name}%0A` +
+                        `Dirección: ${address}%0A` +
+                        `Teléfono: ${phone}`;
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${message}`;
+        window.open(whatsappUrl, '_blank');
+    }
+
     function openImageModal(src, alt) {
         const modal = document.getElementById('image-modal');
         const modalImage = document.getElementById('modal-image');
@@ -123,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
         caption.textContent = alt;
     }
 
-    // Función para abrir el modal de la credencial
     function openCredentialModal(src, name) {
         const modal = document.getElementById('credential-modal');
         const credentialImage = document.getElementById('credential-image');
@@ -135,7 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
         caption.textContent = `Credencial de ${name}`;
     }
 
-    // Cerrar la ventana modal
     const modalClose = document.querySelectorAll('.modal-close');
     modalClose.forEach(closeButton => {
         closeButton.addEventListener('click', () => {
@@ -146,7 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Cerrar la ventana modal si se hace clic fuera de la imagen
     window.addEventListener('click', (event) => {
         const modals = document.querySelectorAll('.modal');
         modals.forEach(modal => {
@@ -156,12 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Filtrar contactos según la búsqueda
     searchButton.addEventListener('click', () => {
         const query = searchBox.value.toLowerCase().trim();
 
         if (query === '') {
-            // Si la búsqueda está vacía, mostrar todos los contactos
             displayContacts(contacts);
             return;
         }
@@ -170,7 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
             contact.name.toLowerCase().includes(query)
         );
 
-        // Mostrar contactos filtrados
         if (filteredContacts.length > 0) {
             displayContacts(filteredContacts);
         } else {
@@ -178,18 +172,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Mostrar modal de políticas de privacidad
     document.getElementById('privacy-policy').addEventListener('click', (e) => {
         e.preventDefault();
         openModal('privacy-modal');
     });
 
-    // Mostrar modal para solicitar usuario
     requestUserButton.addEventListener('click', () => {
         openModal('request-modal');
     });
 
-    // Manejar el envío del formulario de solicitud de usuario
     requestForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
@@ -199,73 +190,59 @@ document.addEventListener('DOMContentLoaded', () => {
         const company = document.getElementById('request-company').value;
         const reason = document.getElementById('request-reason').value;
 
-        // Cerrar el modal
         closeModal('request-modal');
 
-        // Crear el mensaje para enviar por correo electrónico
         const subject = encodeURIComponent('Solicitud de Usuario');
         const body = encodeURIComponent(`Nombre: ${name}\nCUI/DPI: ${cui}\nNIT: ${nit}\nEmpresa/Institución: ${company}\nMotivo: ${reason}`);
         const mailtoUrl = `mailto:dpdanielpineda59@gmail.com?subject=${subject}&body=${body}`;
 
-        // Abrir el cliente de correo con el mensaje prellenado
         window.open(mailtoUrl, '_blank');
     });
 
-    // Función para abrir modal
     function openModal(modalId) {
         const modal = document.getElementById(modalId);
         modal.style.display = 'flex';
     }
 
-    // Función para cerrar modal
     function closeModal(modalId) {
         const modal = document.getElementById(modalId);
         modal.style.display = 'none';
     }
 
- // Función para mostrar el anuncio emergente
-function showAnnouncement(message) {
-    const announcement = document.getElementById('announcement');
-    announcement.textContent = message;
-    announcement.style.display = 'block';
-}
-
-// Función para ocultar el anuncio emergente
-function hideAnnouncement() {
-    const announcement = document.getElementById('announcement');
-    announcement.style.display = 'none';
-}
-
-// Función para verificar la fecha y mostrar el anuncio adecuado
-function checkAnnouncement() {
-    const today = new Date();
-    const month = today.getMonth(); // 0 = Enero, 1 = Febrero, ..., 7 = Agosto, 8 = Septiembre
-    const day = today.getDate();
-
-    let message = '';
-
-    // Mensaje para el mes de agosto
-    if (month === 7) { // Agosto
-        message = 'La próxima reunión de COMUDE es el jueves 29-08-2024.';
-    }
-    // Mensaje para el mes de septiembre
-    else if (month === 8) { // Septiembre
-        message = 'La próxima reunión de COMUDE es el jueves 26-09-2024.';
-    } else {
-        return; // No mostrar anuncio en otros meses
+    function showAnnouncement(message) {
+        const announcement = document.getElementById('announcement');
+        announcement.textContent = message;
+        announcement.style.display = 'block';
     }
 
-    // Mostrar el anuncio en intervalos
-    function displayAnnouncement() {
-        showAnnouncement(message);
-        setTimeout(hideAnnouncement, 5000); // Ocultar después de 10 segundos
-        setTimeout(displayAnnouncement, 15000); // Mostrar después de 1 minuto y 10 segundos
+    function hideAnnouncement() {
+        const announcement = document.getElementById('announcement');
+        announcement.style.display = 'none';
     }
 
-    displayAnnouncement();
-}
+    function checkAnnouncement() {
+        const today = new Date();
+        const month = today.getMonth();
+        const day = today.getDate();
 
-// Ejecutar la función cuando se cargue la página
-window.addEventListener('load', checkAnnouncement);
+        let message = '';
 
+        if (month === 7) {
+            message = 'La próxima reunión de COMUDE es el jueves 29-08-2024.';
+        } else if (month === 8) {
+            message = 'La próxima reunión de COMUDE es el jueves 26-09-2024.';
+        } else {
+            return;
+        }
+
+        function displayAnnouncement() {
+            showAnnouncement(message);
+            setTimeout(hideAnnouncement, 5000);
+            setTimeout(displayAnnouncement, 15000);
+        }
+
+        displayAnnouncement();
+    }
+
+    window.addEventListener('load', checkAnnouncement);
 });
