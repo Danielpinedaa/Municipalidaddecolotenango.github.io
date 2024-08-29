@@ -10,61 +10,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactsList = document.getElementById('contacts-list');
     const requestUserButton = document.getElementById('request-user-button');
     const requestModal = document.getElementById('request-modal');
-    const adminForm = document.getElementById('admin-form');
     const adminDashboard = document.getElementById('admin-dashboard');
 
-    // Definición de contactos simulados
-    let contacts = [
-        {
-            "name": "Juan Pérez",
-            "address": "Calle Falsa 123, Ciudad",
-            "phone": "555-1234",
-            "photo": "images/profile/juan_perez.jpg",
-            "credential": "images/credentials/juan_perez_credential.png"
-        },
-        {
-            "name": "Ana Gómez",
-            "address": "Avenida Siempre Viva 742, Ciudad",
-            "phone": "555-5678",
-            "photo": "images/profile/ana_gomez.jpg",
-            "credential": "images/credentials/ana_gomez_credential.png"
-        },
-        {
-            "name": "Luis Fernández",
-            "address": "Boulevard de los Sueños 456, Ciudad",
-            "phone": "555-9012",
-            "photo": "images/profile/luis_fernandez.jpg",
-            "credential": "images/credentials/luis_fernandez_credential.png"
+    const API_URL = 'fetch_contacts.php';  // Nuevo script PHP para obtener los contactos
+
+    // Obtener contactos del backend
+    async function fetchContacts() {
+        try {
+            const response = await fetch(API_URL);
+            const contacts = await response.json();
+            displayContacts(contacts);
+        } catch (error) {
+            console.error('Error al obtener contactos:', error);
         }
-    ];
+    }
 
-    // Definición de usuarios y contraseñas
-    const users = {
-        admin: 'admin123',
-        user: 'user123'
-    };
-
-    // Manejar el inicio de sesión
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const username = usernameInput.value;
         const password = passwordInput.value;
 
-        if (users[username] && users[username] === password) {
+        if (username === 'admin' && password === 'admin3348') {
             loginSection.style.display = 'none';
-            if (username === 'admin') {
-                adminDashboard.style.display = 'block';
-            } else {
-                contactsSection.style.display = 'block';
-                displayContacts(); 
-            }
+            adminDashboard.style.display = 'block';
+        } else if (username === 'user' && password === 'user3348') {
+            loginSection.style.display = 'none';
+            contactsSection.style.display = 'block';
+            fetchContacts();
         } else {
             loginError.textContent = 'Usuario o contraseña incorrectos.';
         }
     });
 
-    // Función para mostrar los contactos
-    function displayContacts() {
+    function displayContacts(contacts) {
         contactsList.innerHTML = '';
         contacts.forEach(contact => {
             const contactDiv = document.createElement('div');
@@ -81,16 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button class="share-button">Compartir</button>
                 </div>
             `;
-            contactDiv.setAttribute('data-credential-src', contact.credential);
 
-            contactDiv.querySelector('.call-button').addEventListener('click', (event) => {
-                event.stopPropagation();
-                makeCall(contact.phone);
+            contactDiv.querySelector('.call-button').addEventListener('click', () => {
+                window.location.href = `tel:${contact.phone}`;
             });
 
-            contactDiv.querySelector('.share-button').addEventListener('click', (event) => {
-                event.stopPropagation();
-                shareContact(contact.name, contact.address, contact.phone);
+            contactDiv.querySelector('.share-button').addEventListener('click', () => {
+                const message = `Contacto: ${contact.name}%0ADirección: ${contact.address}%0ATeléfono: ${contact.phone}`;
+                const whatsappUrl = `https://api.whatsapp.com/send?text=${message}`;
+                window.open(whatsappUrl, '_blank');
             });
 
             contactDiv.addEventListener('click', () => {
@@ -101,21 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Función para hacer llamadas
-    function makeCall(phone) {
-        window.location.href = `tel:${phone}`;
-    }
-
-    // Función para compartir contactos
-    function shareContact(name, address, phone) {
-        const message = `Contacto: ${name}%0A` +
-                        `Dirección: ${address}%0A` +
-                        `Teléfono: ${phone}`;
-        const whatsappUrl = `https://api.whatsapp.com/send?text=${message}`;
-        window.open(whatsappUrl, '_blank');
-    }
-
-    // Función para abrir la ventana modal de credenciales
     function openCredentialModal(src, name) {
         const modal = document.getElementById('credential-modal');
         const credentialImage = document.getElementById('credential-image');
@@ -127,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         caption.textContent = `Credencial de ${name}`;
     }
 
-    // Cerrar modales
     const modalClose = document.querySelectorAll('.modal-close');
     modalClose.forEach(closeButton => {
         closeButton.addEventListener('click', () => {
@@ -147,100 +108,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Búsqueda de contactos
     searchButton.addEventListener('click', () => {
         const query = searchBox.value.toLowerCase().trim();
-
         if (query === '') {
-            displayContacts();
+            fetchContacts();
             return;
         }
 
-        const filteredContacts = contacts.filter(contact => 
-            contact.address.toLowerCase().includes(query)
-        );
-
-        if (filteredContacts.length > 0) {
+        fetchContacts().then(contacts => {
+            const filteredContacts = contacts.filter(contact => 
+                contact.address.toLowerCase().includes(query)
+            );
             displayContacts(filteredContacts);
-        } else {
-            contactsList.innerHTML = '<p>No se encontraron contactos.</p>';
-        }
+        });
     });
 
-    // Manejar la solicitud de usuario
+    // Manejo de solicitudes de usuario (el botón de solicitar usuario)
     requestUserButton.addEventListener('click', () => {
         openModal('request-modal');
     });
 
-    // Agregar contacto desde el panel de administración
-    adminForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const name = document.getElementById('admin-name').value;
-        const address = document.getElementById('admin-address').value;
-        const phone = document.getElementById('admin-phone').value;
-        const photoFile = document.getElementById('admin-photo').files[0];
-        const credentialFile = document.getElementById('admin-credential').files[0];
-
-        if (photoFile && credentialFile) {
-            const reader = new FileReader();
-            const credentialReader = new FileReader();
-
-            reader.onload = function (e) {
-                const photoDataUrl = e.target.result;
-
-                credentialReader.onload = function (e) {
-                    const credentialDataUrl = e.target.result;
-
-                    const newContact = {
-                        name,
-                        address,
-                        phone,
-                        photo: photoDataUrl,
-                        credential: credentialDataUrl
-                    };
-
-                    contacts.push(newContact);
-
-                    // Mostrar la lista de contactos y ocultar el dashboard
-                    adminDashboard.style.display = 'none';
-                    contactsSection.style.display = 'block';
-                    displayContacts();
-
-                    adminForm.reset(); 
-                };
-
-                credentialReader.readAsDataURL(credentialFile);
-            };
-
-            reader.readAsDataURL(photoFile);
-        } else {
-            alert("Por favor, carga tanto la foto del contacto como la credencial.");
-        }
-    });
-
-    // Función para abrir modales
     function openModal(modalId) {
         const modal = document.getElementById(modalId);
         modal.style.display = 'flex';
     }
 
-    // Función para cerrar modales
     function closeModal(modalId) {
         const modal = document.getElementById(modalId);
         modal.style.display = 'none';
     }
 
-    // Anuncio emergente
+    // Mostrar el anuncio emergente
     function showAnnouncement(message) {
         const announcement = document.getElementById('announcement');
         announcement.textContent = message;
         announcement.style.display = 'block';
-    }
-
-    function hideAnnouncement() {
-        const announcement = document.getElementById('announcement');
-        announcement.style.display = 'none';
+        setTimeout(() => {
+            announcement.style.display = 'none';
+        }, 5000);
     }
 
     function checkAnnouncement() {
@@ -259,8 +164,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         showAnnouncement(message);
-        setTimeout(hideAnnouncement, 5000);
     }
 
     window.addEventListener('load', checkAnnouncement);
+    fetchContacts();  // Cargar contactos al iniciar
 });
